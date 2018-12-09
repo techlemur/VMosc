@@ -70,7 +70,9 @@ namespace VMosc
                 return (float)(newStart + ((value - originalStart) * scale));
             }
 
-        
+
+
+
 
         public void Sync()
         {
@@ -287,9 +289,15 @@ namespace VMosc
             //Run = true;
             //t = new System.Threading.Thread(DoThisAllTheTime);
             //t.Start();
+
+            //int x = Convert.ToInt32(textBox1.Text);
+            textBox1.Text = Properties.Settings.Default.portIn.ToString();
+            textBox2.Text = Properties.Settings.Default.portOut.ToString();
+
+
             vm = new VmClient();
             IPAddress broadcast = IPAddress.Parse("10.0.3.255");
-            oscSender = new SharpOSC.UDPSender(broadcast.ToString(), 9000);
+            oscSender = new SharpOSC.UDPSender(broadcast.ToString(), Properties.Settings.Default.portOut);
 
         }
 
@@ -590,7 +598,7 @@ namespace VMosc
              };
 
 
-        var listener = new UDPListener(8001, callback);
+        var listener = new UDPListener(Properties.Settings.Default.portIn, callback);
             //MessageBox.Show("Starting OSC Listener");
             
         }
@@ -625,6 +633,28 @@ namespace VMosc
         private void button2_Click(object sender, EventArgs e)
         {
             Sync();
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            int x = Convert.ToInt32(textBox1.Text);
+            Properties.Settings.Default.portIn = x;
+            label_status.Text = "Restart needed before the new setting will take effect.";
+            Properties.Settings.Default.Save();
+        }
+
+        private void restartButton_Click(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.Save();
+            System.Windows.Forms.Application.Restart();
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+            int x = Convert.ToInt32(textBox2.Text);
+            Properties.Settings.Default.portOut = x;
+            label_status.Text = "Restart needed before the new setting will take effect.";
+            Properties.Settings.Default.Save();
         }
     }
 }
