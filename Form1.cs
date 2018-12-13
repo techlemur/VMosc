@@ -86,9 +86,22 @@ namespace VMosc
                 //Console.WriteLine(vVar.Key + " - " + vVar.Value.ToString());
             }
 
-            
 
-            foreach (KeyValuePair<string, string> vVar in voicemeeterXYVarNames)
+            for (int i = 0; i < 8; i++)
+            {
+                try
+                {
+                    oscSender.Send(new SharpOSC.OscMessage("/Slider/" + i.ToString() + "/device/Text",  vm.GetParam("Strip[" + i.ToString() + "].device")));
+                    //Console.WriteLine((string)vm.GetParamString("Strip[" + i.ToString() + "].device"));
+                }
+                catch (System.Exception e)
+                {
+                    Console.WriteLine("oops");
+                }
+            }
+
+
+                foreach (KeyValuePair<string, string> vVar in voicemeeterXYVarNames)
             {
                 string value = vVar.Value;
                 float tmpVarX = (float)vm.GetParam(vVar.Key + "_x");
@@ -154,6 +167,8 @@ namespace VMosc
                 //Console.WriteLine(i);
 
                 //voicemeeterXYVarNames.Add("Strip[" + i.ToString() + "].fx_x", "/Slider/" + i.ToString() + "/fxy");
+
+                //voicemeeterVarNames.Add("Strip[" + i.ToString() + "].device", "/Slider/" + i.ToString() + "/device/Text");
 
                 foreach (string strip in stripOptionNames)
                 {
