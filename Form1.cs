@@ -121,14 +121,15 @@ namespace VMosc
                     }
                     else
                     {
-                        tmpVarX = ConvertRange((float)-0.5, (float)0.5, (float)0, (float)1, tmpVarX);
+                        //tmpVarX = ConvertRange((float)-0.5, (float)0.5, (float)0, (float)1, tmpVarX);
+                        tmpVarY = ConvertRange((float)0, (float)1, (float)-0.5, (float)0.5, tmpVarY);
                     }
 
                 }
                 else
                 {
                     //tmpVarY = ConvertRange((float)-0.5, (float)0.5, (float)0, (float)1,tmpVarY);
-                    tmpVarX = ConvertRange((float)-0.5, (float)0.5, (float)0, (float)1, tmpVarX);
+                    tmpVarY = ConvertRange((float)0, (float)1, (float)-0.5, (float)0.5, tmpVarY);
                 }
 
 
@@ -257,6 +258,8 @@ namespace VMosc
                     string value = vVar.Value;
                     float tmpVarX = (float)vm.GetParam(vVar.Key + "_x");
                     float tmpVarY = (float)vm.GetParam(vVar.Key + "_y");
+
+                    //Console.WriteLine(tmpVarX.ToString() + " - " + tmpVarY.ToString());
                     if (vVar.Key.Contains("fx"))
                     {
                         value = vVar.Value + "y";
@@ -272,14 +275,15 @@ namespace VMosc
                         }
                         else
                         {
-                            tmpVarX = ConvertRange((float)-0.5, (float)0.5, (float)0, (float)1, tmpVarX);
+                            //tmpVarX = ConvertRange((float)-0.5, (float)0.5, (float)0, (float)1, tmpVarX);
+                            tmpVarY = ConvertRange((float)0, (float)1, (float)-0.5, (float)0.5, tmpVarY);
                         }
 
                     }
                     else
                     {
                         //tmpVarY = ConvertRange((float)-0.5, (float)0.5, (float)0, (float)1,tmpVarY);
-                        tmpVarX = ConvertRange((float)-0.5, (float)0.5, (float)0, (float)1, tmpVarX);
+                        tmpVarY = ConvertRange((float)0, (float)1, (float)-0.5, (float)0.5, tmpVarY);
                     }
                         
                     
@@ -427,10 +431,10 @@ namespace VMosc
                                 {
                                     label_single.Invoke((MethodInvoker)(() => label_single.Text = ""));
 
-                                    msgVars.Add("fx_x", (float)messageReceived.Arguments[1] - (float)0.5);
+                                    msgVars.Add("fx_x", (float)messageReceived.Arguments[1]);
                                     label_x.Invoke((MethodInvoker)(() => label_x.Text = ((float)messageReceived.Arguments[1] - (float)0.5).ToString()));
 
-                                    msgVars.Add("fx_y", (float)messageReceived.Arguments[0]);
+                                    msgVars.Add("fx_y", ConvertRange((float)-0.5, (float)0.5, (float)0, (float)1, (float)messageReceived.Arguments[0]));
                                     label_y.Invoke((MethodInvoker)(() => label_y.Text = messageReceived.Arguments[0].ToString()));
                                 }
                                 else
@@ -444,8 +448,8 @@ namespace VMosc
                                 {
                                     label_single.Invoke((MethodInvoker)(() => label_single.Text = ""));
 
-                                    msgVars.Add(addressParts[3] + "_x", (float)messageReceived.Arguments[1] - (float)0.5);
-                                    label_x.Invoke((MethodInvoker)(() => label_x.Text = ((float)messageReceived.Arguments[1] - (float)0.5).ToString()));
+                                    msgVars.Add(addressParts[3] + "_x", (float)messageReceived.Arguments[1]);
+                                    label_x.Invoke((MethodInvoker)(() => label_x.Text = ((float)messageReceived.Arguments[1] ).ToString()));
 
                                     if (Convert.ToInt32(addressParts[2]) > 4)
                                     {
@@ -454,8 +458,8 @@ namespace VMosc
                                     }
                                     else
                                     {
-                                        msgVars.Add(addressParts[3] + "_y", (float)messageReceived.Arguments[0]);
-                                        label_y.Invoke((MethodInvoker)(() => label_y.Text = ((float)messageReceived.Arguments[0] - (float)1).ToString()));
+                                        msgVars.Add(addressParts[3] + "_y", ConvertRange((float)-0.5, (float)0.5, (float)0, (float)1, (float)messageReceived.Arguments[0]));
+                                        label_y.Invoke((MethodInvoker)(() => label_y.Text = ((float)messageReceived.Arguments[0]).ToString()));
                                     }
                                 }
                                 else
@@ -480,10 +484,13 @@ namespace VMosc
                                             }
                                             else
                                             {
-                                                msgVars.Add(addressParts[3] + "_x", (float)messageReceived.Arguments[1] - (float)0.5);
+                                                Console.WriteLine("pan");
+                                                msgVars.Add(addressParts[3] + "_x", (float)messageReceived.Arguments[1] );
+                                                //msgVars.Add(addressParts[3] + "_x", ConvertRange((float)-0.5, (float)0.5, (float)0, (float)1, (float)messageReceived.Arguments[1]));
                                                 label_x.Invoke((MethodInvoker)(() => label_x.Text = ((float)messageReceived.Arguments[1] - (float)0.5).ToString()));
-                                                msgVars.Add(addressParts[3] + "_y", (float)messageReceived.Arguments[0]);
-                                                label_y.Invoke((MethodInvoker)(() => label_y.Text = messageReceived.Arguments[0].ToString()));
+                                                //msgVars.Add(addressParts[3] + "_y", (float)messageReceived.Arguments[0] );
+                                                msgVars.Add(addressParts[3] + "_y", ConvertRange((float)-0.5, (float)0.5, (float)0, (float)1, (float)messageReceived.Arguments[0]));
+                                            label_y.Invoke((MethodInvoker)(() => label_y.Text = messageReceived.Arguments[0].ToString()));
                                             }
                                             
                                        
@@ -540,7 +547,7 @@ namespace VMosc
                                 }
                                 else
                                 {
-                                    message = new SharpOSC.OscMessage("/Slider/" + addressParts[2] + "/" + addressParts[3], (float)0, (float)0.5);
+                                    message = new SharpOSC.OscMessage("/Slider/" + addressParts[2] + "/" + addressParts[3], (float)-0.5, (float)0);
                                 }
                                 oscSender.Send(message);
                             }
