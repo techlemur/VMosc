@@ -9,6 +9,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Threading;
+//using WindowsInput.Native;
+//using WindowsInput;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -370,7 +372,8 @@ namespace VMosc
 
             HandleOscPacket callback = delegate (OscPacket packet)
                 {
-                var messageReceived = (OscMessage)packet;
+                    //Console.WriteLine("oscPacket");
+                    var messageReceived = (OscMessage)packet;
                 if (messageReceived == null)
                 {
                     return;
@@ -378,7 +381,7 @@ namespace VMosc
 
                 if (messageReceived.Address != null)
                 {
-                    //Console.WriteLine(messageReceived.Address);
+                    Console.WriteLine(messageReceived.Address);
                     label1.Invoke((MethodInvoker)(() => label1.Text = messageReceived.Address));
 
                     string[] addressParts = messageReceived.Address.Split('/');
@@ -394,6 +397,13 @@ namespace VMosc
                         //label_status.Invoke((MethodInvoker)(() => label_status.Text = "end string, no action"));
                         return;
                     }
+                    else if (messageReceived.Address.Contains("keyboard"))//remote program calls
+                        {
+                            //Console.WriteLine("keyboard");
+                            //Console.WriteLine(addressParts[2]);
+                            SendKeys.SendWait(addressParts[2]);
+                            return;
+                        }
                     else if (messageReceived.Address.Contains("osc"))//remote program calls
                         {
                             //label_status.Invoke((MethodInvoker)(() => label_status.Text = "end string, no action"));
@@ -414,18 +424,25 @@ namespace VMosc
                         }
                     else
                     {
-
+                        //Console.WriteLine(addressParts[1]);
                         switch (addressParts[1])
                         {
+                            
                             case "Slider":
                                 addressParts[1] = "Strip";
                                 break;
-                        }
+                            case "keyboard":
+                                    Console.WriteLine("keyboard");
+                                    Console.WriteLine(addressParts[2]);
+                                    SendKeys.SendWait(addressParts[2]);
+                                break;
+                            }
                         //Console.WriteLine(messageReceived.Arguments.Count.ToString());
                         //label_status.Invoke((MethodInvoker)(() => label_status.Text = messageReceived.Arguments.Count.ToString()));
 
                         switch (addressParts[3])
                         {
+                            
                             case "fxy":
                                 if (messageReceived.Arguments.Count == 2)
                                 {
