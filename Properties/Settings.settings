@@ -11,5 +11,11 @@
     <Setting Name="broadcastIP" Type="System.String" Scope="User">
       <Value Profile="(Default)">192.168.0.255</Value>
     </Setting>
+    <Setting Name="portInStr" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="portOutStr" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

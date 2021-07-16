@@ -30,7 +30,7 @@ namespace VMosc
 
     public partial class Form1 : Form
     {
-        System.Threading.Thread t;
+        //System.Threading.Thread t;
         private volatile bool _run;
         VoiceMeeterWrapper.VmClient vm;
         SharpOSC.UDPSender oscSender;
@@ -71,7 +71,7 @@ namespace VMosc
                 return (float)(newStart + ((value - originalStart) * scale));
             }
 
-
+        
 
 
 
@@ -98,6 +98,7 @@ namespace VMosc
                 catch (System.Exception e)
                 {
                     Console.WriteLine("oops");
+                    Console.WriteLine(e);
                 }
             }
 
@@ -311,27 +312,25 @@ namespace VMosc
             //t.Start();
 
             //int x = Convert.ToInt32(textBox1.Text);
-            textBox1.Text = Properties.Settings.Default.portIn.ToString();
-            textBox2.Text = Properties.Settings.Default.portOut.ToString();
-            textBox3.Text = Properties.Settings.Default.broadcastIP.ToString();
+            //textBox1.Text = Properties.Settings.Default.portIn.ToString();
+            //textBox2.Text = Properties.Settings.Default.portOut.ToString();
+            //textBox3.Text = Properties.Settings.Default.broadcastIP.ToString();
 
             vm = new VmClient();
 
             IPAddress broadcast;
-            //Properties.Settings.Default.broadcastIP = "192.168.0.255";
-            Console.WriteLine(Dns.GetHostEntry(Dns.GetHostName()).AddressList.FirstOrDefault(ip => ip.AddressFamily == AddressFamily.InterNetwork));
+            //Console.WriteLine(Properties.Settings.Default.portIn.ToString());
+            //Console.WriteLine(Properties.Settings.Default.portOut.ToString());
+            //Console.WriteLine(Properties.Settings.Default.broadcastIP.ToString());
 
             bool flag = IPAddress.TryParse(Properties.Settings.Default.broadcastIP, out broadcast);
             if (!flag)
             {
-                IPAddress systembroadcast = IPAddress.Parse(Dns.GetHostEntry(Dns.GetHostName()).AddressList.FirstOrDefault(ip => ip.AddressFamily == AddressFamily.InterNetwork).ToString());
-                //Console.WriteLine(systembroadcast.);
                 Properties.Settings.Default.broadcastIP = "192.168.0.255";
                 textBox3.Text = "192.168.0.255";
                 Properties.Settings.Default.Save();
                 broadcast = IPAddress.Parse(Properties.Settings.Default.broadcastIP);
             }
-            Console.WriteLine(broadcast.AddressFamily);
             oscSender = new SharpOSC.UDPSender(broadcast.ToString(), Properties.Settings.Default.portOut);
         }
 
@@ -675,6 +674,20 @@ namespace VMosc
             Application.Exit();
         }
 
+        public void setNeedsSave(bool needsSaving)
+        {
+            if (needsSaving)
+            {
+                label_status.Text = "Restart needed before the new setting will take effect.";
+                restartButton.Text = "Save And\nRestart";
+            }
+            else
+            {
+                label_status.Text = "";
+                restartButton.Text = "Restart";
+            }
+        }
+
         private void button1_Click_1(object sender, EventArgs e)
         {
             //Run = false;
@@ -691,8 +704,7 @@ namespace VMosc
         {
             int x = Convert.ToInt32(textBox1.Text);
             Properties.Settings.Default.portIn = x;
-            label_status.Text = "Restart needed before the new setting will take effect.";
-            Properties.Settings.Default.Save();
+            setNeedsSave(true);
         }
 
         private void restartButton_Click(object sender, EventArgs e)
@@ -705,8 +717,7 @@ namespace VMosc
         {
             int x = Convert.ToInt32(textBox2.Text);
             Properties.Settings.Default.portOut = x;
-            label_status.Text = "Restart needed before the new setting will take effect.";
-            Properties.Settings.Default.Save();
+            setNeedsSave(true);
         }
 
         private void label4_Click(object sender, EventArgs e)
@@ -726,8 +737,8 @@ namespace VMosc
             else
             {
                 Properties.Settings.Default.broadcastIP = textBox3.Text;
-                label_status.Text = "Restart needed before the new setting will take effect test.";
-                Properties.Settings.Default.Save();
+                setNeedsSave(true);
+
             }
         }
 
@@ -744,8 +755,17 @@ namespace VMosc
             textBox2.Text = "9000";
             Properties.Settings.Default.broadcastIP = "192.168.0.255";
             textBox3.Text = "192.168.0.255";
-            label_status.Text = "Restart needed before the new setting will take effect test.";
-            Properties.Settings.Default.Save();
+            setNeedsSave(true);
+        }
+
+        private void toolTip1_Popup(object sender, PopupEventArgs e)
+        {
+
+        }
+
+        private void toolTip1_Popup_1(object sender, PopupEventArgs e)
+        {
+
         }
     }
 }

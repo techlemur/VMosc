@@ -41,9 +41,9 @@
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.button3 = new System.Windows.Forms.Button();
+            this.textBox3 = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // label1
@@ -108,7 +108,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(294, 61);
+            this.button2.Location = new System.Drawing.Point(294, 13);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 10;
@@ -128,20 +128,22 @@
             // 
             // textBox1
             // 
+            this.textBox1.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::VMosc.Properties.Settings.Default, "portInStr", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.textBox1.Location = new System.Drawing.Point(48, 198);
             this.textBox1.MaxLength = 10;
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(100, 20);
             this.textBox1.TabIndex = 12;
+            this.textBox1.Text = global::VMosc.Properties.Settings.Default.portInStr;
             this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.textBox1.WordWrap = false;
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // restartButton
             // 
-            this.restartButton.Location = new System.Drawing.Point(294, 9);
+            this.restartButton.Location = new System.Drawing.Point(294, 151);
             this.restartButton.Name = "restartButton";
-            this.restartButton.Size = new System.Drawing.Size(75, 23);
+            this.restartButton.Size = new System.Drawing.Size(75, 44);
             this.restartButton.TabIndex = 13;
             this.restartButton.Text = "Restart";
             this.restartButton.UseVisualStyleBackColor = true;
@@ -149,11 +151,13 @@
             // 
             // textBox2
             // 
+            this.textBox2.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::VMosc.Properties.Settings.Default, "portOutStr", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.textBox2.Location = new System.Drawing.Point(172, 198);
             this.textBox2.MaxLength = 10;
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(100, 20);
             this.textBox2.TabIndex = 14;
+            this.textBox2.Text = global::VMosc.Properties.Settings.Default.portOutStr;
             this.textBox2.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.textBox2.WordWrap = false;
             this.textBox2.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
@@ -178,18 +182,10 @@
             this.label3.Text = "Port Out";
             this.label3.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             // 
-            // textBox3
-            // 
-            this.textBox3.Location = new System.Drawing.Point(48, 159);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(224, 20);
-            this.textBox3.TabIndex = 17;
-            this.textBox3.TextChanged += new System.EventHandler(this.textBox3_TextChanged);
-            // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(112, 140);
+            this.label4.Location = new System.Drawing.Point(52, 140);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(96, 13);
             this.label4.TabIndex = 18;
@@ -198,13 +194,23 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(294, 159);
+            this.button3.Location = new System.Drawing.Point(197, 130);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(75, 23);
             this.button3.TabIndex = 19;
             this.button3.Text = "Defaults";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // textBox3
+            // 
+            this.textBox3.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::VMosc.Properties.Settings.Default, "broadcastIP", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.textBox3.Location = new System.Drawing.Point(48, 159);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(224, 20);
+            this.textBox3.TabIndex = 17;
+            this.textBox3.Text = global::VMosc.Properties.Settings.Default.broadcastIP;
+            this.textBox3.TextChanged += new System.EventHandler(this.textBox3_TextChanged);
             // 
             // Form1
             // 

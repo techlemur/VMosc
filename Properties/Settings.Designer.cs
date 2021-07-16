@@ -58,5 +58,30 @@ namespace VMosc.Properties {
                 this["broadcastIP"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string portInStr {
+            get {
+                return (this["portIn"].ToString());
+            }
+            set {
+                this["portIn"] = System.Convert.ToInt32(value);
+                //this["portInStr"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string portOutStr {
+            get {
+                return (this["portOut"].ToString());
+            }
+            set {
+                this["portOut"] = System.Convert.ToInt32(value);
+            }
+        }
     }
 }
