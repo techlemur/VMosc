@@ -13,7 +13,6 @@ using System.Windows.Threading;
 //using WindowsInput;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
 using System.Timers;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
@@ -314,12 +313,26 @@ namespace VMosc
             //int x = Convert.ToInt32(textBox1.Text);
             textBox1.Text = Properties.Settings.Default.portIn.ToString();
             textBox2.Text = Properties.Settings.Default.portOut.ToString();
-
+            textBox3.Text = Properties.Settings.Default.broadcastIP.ToString();
 
             vm = new VmClient();
-            IPAddress broadcast = IPAddress.Parse("10.0.3.255");
-            oscSender = new SharpOSC.UDPSender(broadcast.ToString(), Properties.Settings.Default.portOut);
 
+            IPAddress broadcast;
+            //Properties.Settings.Default.broadcastIP = "192.168.0.255";
+            Console.WriteLine(Dns.GetHostEntry(Dns.GetHostName()).AddressList.FirstOrDefault(ip => ip.AddressFamily == AddressFamily.InterNetwork));
+
+            bool flag = IPAddress.TryParse(Properties.Settings.Default.broadcastIP, out broadcast);
+            if (!flag)
+            {
+                IPAddress systembroadcast = IPAddress.Parse(Dns.GetHostEntry(Dns.GetHostName()).AddressList.FirstOrDefault(ip => ip.AddressFamily == AddressFamily.InterNetwork).ToString());
+                //Console.WriteLine(systembroadcast.);
+                Properties.Settings.Default.broadcastIP = "192.168.0.255";
+                textBox3.Text = "192.168.0.255";
+                Properties.Settings.Default.Save();
+                broadcast = IPAddress.Parse(Properties.Settings.Default.broadcastIP);
+            }
+            Console.WriteLine(broadcast.AddressFamily);
+            oscSender = new SharpOSC.UDPSender(broadcast.ToString(), Properties.Settings.Default.portOut);
         }
 
         public bool Run
@@ -693,6 +706,45 @@ namespace VMosc
             int x = Convert.ToInt32(textBox2.Text);
             Properties.Settings.Default.portOut = x;
             label_status.Text = "Restart needed before the new setting will take effect.";
+            Properties.Settings.Default.Save();
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox3_TextChanged(object sender, EventArgs e)
+        {
+            IPAddress broadcast;
+            bool testflag = IPAddress.TryParse(textBox3.Text, out broadcast);
+            Console.WriteLine(testflag);
+            if (!testflag)
+            {
+                label_status.Text = "IP Address not valid";
+            }
+            else
+            {
+                Properties.Settings.Default.broadcastIP = textBox3.Text;
+                label_status.Text = "Restart needed before the new setting will take effect test.";
+                Properties.Settings.Default.Save();
+            }
+        }
+
+        private void label4_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.portIn = 8001;
+            textBox1.Text = "8001";
+            Properties.Settings.Default.portOut = 9000;
+            textBox2.Text = "9000";
+            Properties.Settings.Default.broadcastIP = "192.168.0.255";
+            textBox3.Text = "192.168.0.255";
+            label_status.Text = "Restart needed before the new setting will take effect test.";
             Properties.Settings.Default.Save();
         }
     }

@@ -8,5 +8,8 @@
     <Setting Name="portOut" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">9000</Value>
     </Setting>
+    <Setting Name="broadcastIP" Type="System.String" Scope="User">
+      <Value Profile="(Default)">192.168.0.255</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
