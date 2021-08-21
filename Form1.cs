@@ -19,15 +19,8 @@ using System.Windows.Forms;
 using VoiceMeeterWrapper; //https://github.com/tocklime/VoiceMeeterWrapper
 using SharpOSC;  //https://github.com/ValdemarOrn/SharpOSC
 
-
-
-
-
 namespace VMosc
 {
-    
-
-
     public partial class Form1 : Form
     {
         //System.Threading.Thread t;
@@ -36,20 +29,6 @@ namespace VMosc
         SharpOSC.UDPSender oscSender;
         //Timer timer1;
         System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
-
-       
-
-
-        //public void dispatcherTimer_Tick(object sender, EventArgs e)
-        //{
-
-        //}
-
-        //  DispatcherTimer setup
-        //DispatcherTimer dispatcherTimer = new DispatcherTimer();
-        //dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
-        //dispatcherTimer.Interval = new TimeSpan(0,0,1);
-        //dispatcherTimer.Start();
 
         Dictionary<string, float> voicemeeterVars = new Dictionary<string, float>();
         Dictionary<string, float> voicemeeterXYVars = new Dictionary<string, float>();
@@ -71,22 +50,16 @@ namespace VMosc
                 return (float)(newStart + ((value - originalStart) * scale));
             }
 
-        
-
-
-
         public void Sync()
         {
             label_status.Invoke((MethodInvoker)(() => label_status.Text = "Syncing"));
             foreach (KeyValuePair<string, string> vVar in voicemeeterVarNames)
             {
-
                 oscSender.Send(new SharpOSC.OscMessage(vVar.Value, (float)vm.GetParam(vVar.Key)));
                 oscSender.Send(new SharpOSC.OscMessage(vVar.Value + "/Text", (float)vm.GetParam(vVar.Key)));
                 System.Threading.Thread.Sleep(5);
                 //Console.WriteLine(vVar.Key + " - " + vVar.Value.ToString());
             }
-
 
             for (int i = 0; i < 8; i++)
             {
@@ -102,8 +75,7 @@ namespace VMosc
                 }
             }
 
-
-                foreach (KeyValuePair<string, string> vVar in voicemeeterXYVarNames)
+            foreach (KeyValuePair<string, string> vVar in voicemeeterXYVarNames)
             {
                 string value = vVar.Value;
                 float tmpVarX = (float)vm.GetParam(vVar.Key + "_x");
@@ -134,7 +106,6 @@ namespace VMosc
                     tmpVarY = ConvertRange((float)0, (float)1, (float)-0.5, (float)0.5, tmpVarY);
                 }
 
-
                 //if (voicemeeterXYVars[vVar.Key + "_x"] != tmpVarX || voicemeeterXYVars[vVar.Key + "_y"] != tmpVarY)
                 //{
                     //voicemeeterXYVars[vVar.Key + "_x"] = tmpVarX;
@@ -148,7 +119,6 @@ namespace VMosc
 
             label_status.Invoke((MethodInvoker)(() => label_status.Text = ""));
         }
-
 
     public void InitTimer()
         {
@@ -196,8 +166,6 @@ namespace VMosc
                 {
                     voicemeeterVarNames.Add("Bus[" + i.ToString() + "]."+bus, "/Bus/" + i.ToString() + "/"+ bus);
                 }
-                
-
             }
 
             foreach (KeyValuePair<string, string> vVar in voicemeeterVarNames)
@@ -208,7 +176,6 @@ namespace VMosc
                 //System.Threading.Thread.Sleep(10);
                 //Console.WriteLine(vVar.Key + " - " + vVar.Value.ToString());
             }
-
  
             foreach (KeyValuePair<string, string> vVar in voicemeeterXYVarNames)
             {
@@ -220,10 +187,6 @@ namespace VMosc
                 //Console.WriteLine(vVar.Key + " - " + vVar.Value.ToString());
             }
 
-            
-
-
-
             var timer1 = new System.Windows.Forms.Timer();
             timer1.Tick += new EventHandler(timer1_Tick);
             timer1.Interval = 10; // in miliseconds
@@ -233,8 +196,6 @@ namespace VMosc
 
         public void timer1_Tick(object sender, EventArgs e)
         {
-            
-
             if (vm.Poll() is true)
             {
                 //Console.WriteLine("poll - "+vm.Poll().ToString());
@@ -287,7 +248,6 @@ namespace VMosc
                         //tmpVarY = ConvertRange((float)-0.5, (float)0.5, (float)0, (float)1,tmpVarY);
                         tmpVarY = ConvertRange((float)0, (float)1, (float)-0.5, (float)0.5, tmpVarY);
                     }
-                        
                     
                     if (voicemeeterXYVars[vVar.Key+"_x"] != tmpVarX || voicemeeterXYVars[vVar.Key + "_y"] != tmpVarY)
                     {
@@ -365,7 +325,6 @@ namespace VMosc
         }
         */
 
-
         public void Form1_Load(object sender, EventArgs e)
         {
             Run = true;
@@ -378,7 +337,6 @@ namespace VMosc
             label_x.Invoke((MethodInvoker)(() => label_x.Text = ""));
             label_y.Invoke((MethodInvoker)(() => label_y.Text = ""));
             label_status.Invoke((MethodInvoker)(() => label_status.Text = ""));
-
 
             InitTimer();
 
@@ -399,8 +357,6 @@ namespace VMosc
                     string[] addressParts = messageReceived.Address.Split('/');
 
                     Dictionary<string, float> msgVars = new Dictionary<string, float>();
-
-
 
                     //Console.WriteLine(addressParts[1]);
 
@@ -521,15 +477,6 @@ namespace VMosc
                                                 msgVars.Add(addressParts[3] + "_y", ConvertRange((float)-0.5, (float)0.5, (float)0, (float)1, (float)messageReceived.Arguments[0]));
                                             label_y.Invoke((MethodInvoker)(() => label_y.Text = messageReceived.Arguments[0].ToString()));
                                             }
-                                            
-                                       
-
-                                        
-
-                                    
-
-                                    
-
                                 }
                                 else
                                 {
@@ -554,17 +501,14 @@ namespace VMosc
                             {
                                 //Console.WriteLine(entry.Key.ToString() + " - " + entry.Value.ToString());
                                 vm.SetParam(addressParts[1] + "[" + addressParts[2] + "]." + entry.Key, (float)0);
-
-
                             }
 
-                                var message = new SharpOSC.OscMessage("/" + addressParts[1] + "/" + addressParts[2] + "/" + addressParts[3], (float)0, (float)0.5);
+                            var message = new SharpOSC.OscMessage("/" + addressParts[1] + "/" + addressParts[2] + "/" + addressParts[3], (float)0, (float)0.5);
 
                                 if (addressParts[2] == "5" || addressParts[2] == "6" || addressParts[2] == "7")
                             {
                                 message = new SharpOSC.OscMessage("/" + addressParts[1] + "/" + addressParts[2] + "/" + addressParts[3], (float)0, (float)0);
                             }
-                            
                                 
                             oscSender.Send(message);
 
@@ -581,7 +525,7 @@ namespace VMosc
                                 oscSender.Send(message);
                             }
 
-                            }
+                        }
                         else
                         {
                             // float tmpFloat = 0;
@@ -595,16 +539,8 @@ namespace VMosc
                                 //message = new SharpOSC.OscMessage(messageReceived.Address + "/Text", (float)entry.Value);
                                 //oscSender.Send(new SharpOSC.OscMessage(messageReceived.Address + "/Text", (float)entry.Value));
 
-                                }
-
-
-
+                             }
                         }
-
-
-
-
-
                     }
 
                         /*
@@ -637,21 +573,12 @@ namespace VMosc
                          }
                          */
 
-
-
-                        
-
-
                     }
-
                     return;
-
              };
-
 
         var listener = new UDPListener(Properties.Settings.Default.portIn, callback);
             //MessageBox.Show("Starting OSC Listener");
-            
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -662,7 +589,6 @@ namespace VMosc
 
         private void label1_Click(object sender, EventArgs e)
         {
-
         }
 
         public void Form1_FormClosing(object sender, EventArgs e)
@@ -722,7 +648,6 @@ namespace VMosc
 
         private void label4_Click(object sender, EventArgs e)
         {
-
         }
 
         private void textBox3_TextChanged(object sender, EventArgs e)
@@ -738,13 +663,11 @@ namespace VMosc
             {
                 Properties.Settings.Default.broadcastIP = textBox3.Text;
                 setNeedsSave(true);
-
             }
         }
 
         private void label4_Click_1(object sender, EventArgs e)
         {
-
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -760,13 +683,10 @@ namespace VMosc
 
         private void toolTip1_Popup(object sender, PopupEventArgs e)
         {
-
         }
 
         private void toolTip1_Popup_1(object sender, PopupEventArgs e)
         {
-
         }
     }
 }
-
