@@ -1,5 +1,7 @@
 # VMosc
 
+[![CodeFactor](https://www.codefactor.io/repository/github/techlemur/vmosc/badge)](https://www.codefactor.io/repository/github/techlemur/vmosc)
+
 Voicemeeter - OSC bridge for windows.
 
 ## Acknowledgments

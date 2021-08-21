@@ -404,7 +404,6 @@ namespace VMosc
 
                         switch (addressParts[3])
                         {
-                            
                             case "fxy":
                                 if (messageReceived.Arguments.Count == 2)
                                 {
@@ -563,7 +562,6 @@ namespace VMosc
 
                          }
                          */
-
                     }
                     return;
              };

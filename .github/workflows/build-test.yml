@@ -1,0 +1,20 @@
+name: "Build Test"
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    # The branches below must be a subset of the branches above
+    branches: [ master ]
+  # schedule:
+    # - cron: '25 2 * * 4'
+
+jobs:
+  buildtest:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: microsoft/setup-msbuild@v1.0.2
+
+      - name: Build
+        run: dotnet build --no-restore --configuration release
