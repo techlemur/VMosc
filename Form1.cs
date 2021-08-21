@@ -98,7 +98,6 @@ namespace VMosc
                         //tmpVarX = ConvertRange((float)-0.5, (float)0.5, (float)0, (float)1, tmpVarX);
                         tmpVarY = ConvertRange((float)0, (float)1, (float)-0.5, (float)0.5, tmpVarY);
                     }
-
                 }
                 else
                 {
@@ -122,7 +121,6 @@ namespace VMosc
 
     public void InitTimer()
         {
-
             string[] stripOptionNames = new string[] { "Gain", "Solo", "Mute","Comp","Gate","fx1","fx2","MC", "EQGain1", "EQGain2", "EQGain3" };
             string[] stripXYOptionNames = new string[] { "Color", "fx" ,"Pan"};
 
@@ -193,7 +191,6 @@ namespace VMosc
             timer1.Start();
         }
 
-
         public void timer1_Tick(object sender, EventArgs e)
         {
             if (vm.Poll() is true)
@@ -241,7 +238,6 @@ namespace VMosc
                             //tmpVarX = ConvertRange((float)-0.5, (float)0.5, (float)0, (float)1, tmpVarX);
                             tmpVarY = ConvertRange((float)0, (float)1, (float)-0.5, (float)0.5, tmpVarY);
                         }
-
                     }
                     else
                     {
@@ -259,7 +255,6 @@ namespace VMosc
                         //Console.WriteLine(vVar.Key + " - " + value.ToString());
                     }
                 }
-
             }
         }
 
@@ -395,7 +390,6 @@ namespace VMosc
                         //Console.WriteLine(addressParts[1]);
                         switch (addressParts[1])
                         {
-                            
                             case "Slider":
                                 addressParts[1] = "Strip";
                                 break;
@@ -404,7 +398,7 @@ namespace VMosc
                                     Console.WriteLine(addressParts[2]);
                                     SendKeys.SendWait(addressParts[2]);
                                 break;
-                            }
+                        }
                         //Console.WriteLine(messageReceived.Arguments.Count.ToString());
                         //label_status.Invoke((MethodInvoker)(() => label_status.Text = messageReceived.Arguments.Count.ToString()));
 
@@ -458,7 +452,6 @@ namespace VMosc
                                 {
                                     label_single.Invoke((MethodInvoker)(() => label_single.Text = ""));
 
-                                        
                                             if (addressParts[2] == "5" || addressParts[2] == "6" || addressParts[2] == "7")
                                             {
                                                 //Console.WriteLine("5, 6, OR 7!!!!!!!! "+ ConvertRange((float)-1, (float)1, (float)-0.5, (float)0.5, (float)messageReceived.Arguments[1]).ToString() +" -- " + ConvertRange((float)-1, (float)1, (float)-0.5, (float)0.5, (float)messageReceived.Arguments[0]).ToString());
@@ -524,7 +517,6 @@ namespace VMosc
                                 }
                                 oscSender.Send(message);
                             }
-
                         }
                         else
                         {
@@ -538,7 +530,6 @@ namespace VMosc
                                 //oscSender.Send(new SharpOSC.OscMessage(messageReceived.Address, (float)entry.Value));
                                 //message = new SharpOSC.OscMessage(messageReceived.Address + "/Text", (float)entry.Value);
                                 //oscSender.Send(new SharpOSC.OscMessage(messageReceived.Address + "/Text", (float)entry.Value));
-
                              }
                         }
                     }
@@ -577,7 +568,7 @@ namespace VMosc
                     return;
              };
 
-        var listener = new UDPListener(Properties.Settings.Default.portIn, callback);
+            var listener = new UDPListener(Properties.Settings.Default.portIn, callback);
             //MessageBox.Show("Starting OSC Listener");
         }
 
