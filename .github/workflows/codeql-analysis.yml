@@ -26,7 +26,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: microsoft/setup-msbuild@v1.0.2
-      
 
       - name: Build
         run: dotnet build --no-restore --configuration release
